@@ -30,8 +30,7 @@
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
                 <TextBlock Text="{Binding Title}" 
                            FontWeight="Bold" 
-                           TextTrimming="CharacterEllipsis"
-                           MaxWidth="40"/>
+                           TextTrimming="CharacterEllipsis"/>
                 <TextBlock Text=" (Pre)" 
                            FontWeight="Bold"
                            IsVisible="{Binding IsPrerelease}"/>
@@ -49,8 +48,7 @@
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                 <TextBlock Text="{Binding Id}" 
                            FontSize="10" 
-                           TextTrimming="CharacterEllipsis"
-                           MaxWidth="25"/>
+                           TextTrimming="CharacterEllipsis"/>
                 <TextBlock Text=" v" FontSize="10"/>
                 <TextBlock Text="{Binding Version}" 
                            FontSize="10" 
@@ -63,15 +61,13 @@
                        FontSize="10"
                        TextWrapping="Wrap"
                        TextTrimming="WordEllipsis"
-                       MaxLines="2"
-                       MaxWidth="60"/>
+                       MaxLines="2"/>
 
             <!-- Authors and Downloads -->
             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
                 <TextBlock Text="{Binding Authors}" 
                            FontSize="9" 
-                           TextTrimming="CharacterEllipsis"
-                           MaxWidth="20"/>
+                           TextTrimming="CharacterEllipsis"/>
                 <TextBlock Text=" | " FontSize="9"/>
                 <TextBlock Text="{Binding DownloadsString}" 
                            FontSize="9"/>
