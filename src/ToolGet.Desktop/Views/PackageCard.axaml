@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
+             x:Class="ToolGet.Desktop.Views.PackageCard"
+             x:DataType="vm:PackageCardViewModel"
+             Width="350"
+             Height="200">
+
+    <Design.DataContext>
+        <vm:PackageCardViewModel/>
+    </Design.DataContext>
+
+    <Border Background="{DynamicResource CardBackgroundBrush}"
+            BorderBrush="{DynamicResource CardBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="16">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="4" OffsetX="0" OffsetY="2" Opacity="0.1"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Package Title and Version -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+                <TextBlock Text="{Binding Title}" 
+                           FontWeight="Bold" 
+                           FontSize="16"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center"/>
+                <Border Background="Orange"
+                        Padding="4,2"
+                        CornerRadius="3"
+                        Margin="8,0,0,0"
+                        IsVisible="{Binding IsPrerelease}">
+                    <TextBlock Text="Pre" FontSize="10" Foreground="White" FontWeight="Bold"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Package ID and Version -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
+                <TextBlock Text="{Binding Id}" 
+                           FontSize="12" 
+                           Foreground="#666666"
+                           TextTrimming="CharacterEllipsis"/>
+                <TextBlock Text=" v" FontSize="12" Foreground="#666666"/>
+                <TextBlock Text="{Binding Version}" 
+                           FontSize="12" 
+                           Foreground="#666666"
+                           FontWeight="Bold"/>
+            </StackPanel>
+
+            <!-- Description -->
+            <TextBlock Grid.Row="2" 
+                       Text="{Binding Description}"
+                       FontSize="13"
+                       TextWrapping="Wrap"
+                       TextTrimming="WordEllipsis"
+                       MaxLines="3"
+                       Margin="0,0,0,12"
+                       Foreground="#333333"/>
+
+            <!-- Authors and Downloads -->
+            <StackPanel Grid.Row="3" Margin="0,0,0,12">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                    <TextBlock Text="👤" FontSize="12" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding Authors}" 
+                               FontSize="11" 
+                               Foreground="#666666"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="⬇️" FontSize="12" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding DownloadsString}" 
+                               FontSize="11" 
+                               Foreground="#666666"/>
+                    <TextBlock Text=" downloads" FontSize="11" Foreground="#666666"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Install Button -->
+            <Button Grid.Row="4"
+                    Content="{Binding InstallButtonText}"
+                    Command="{Binding InstallCommand}"
+                    IsEnabled="{Binding !IsInstalling}"
+                    Background="{DynamicResource AccentBrush}"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Padding="0,8"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"/>
+        </Grid>
+    </Border>
+</UserControl>
