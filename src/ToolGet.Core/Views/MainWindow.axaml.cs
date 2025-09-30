@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace ToolGet.Console.Views;
+namespace ToolGet.Core;
 
 public partial class MainWindow : Window
 {

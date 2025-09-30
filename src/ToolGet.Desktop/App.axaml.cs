@@ -2,9 +2,9 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using ToolGet.Core;
 using ToolGet.Core.Services;
 using ToolGet.Core.ViewModels;
-using ToolGet.Core.Views;
 
 namespace ToolGet.Desktop;
 
