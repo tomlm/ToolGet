@@ -6,24 +6,26 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-<PropertyGroup>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  <PropertyGroup>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
     <Description>ToolGet is a tool which makes it easy to search and install dotnet tools.</Description>
     <Company>Iciclecreek</Company>
     <Authors>Tom Laird-McConnell</Authors>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>ToolGet</ToolCommandName>
+    <PackageId>ToolGet</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/tomlm/ToolGet.Console</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/tomlm/ToolGet.Console/master/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/tomlm/ToolGet</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/tomlm/ToolGet/master/icon.png</PackageIconUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RepositoryUrl>https://github.com/tomlm/ToolGet.Console</RepositoryUrl>
+    <RepositoryUrl>https://github.com/tomlm/ToolGet</RepositoryUrl>
     <Copyright>Tom Laird-McConnell All Rights Reserved</Copyright>
     <RootNamespace>ToolGet.Console</RootNamespace>
     <ContentTargetFolders>content</ContentTargetFolders>
     <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>  
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
