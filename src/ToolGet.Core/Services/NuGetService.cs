@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using ToolGet.Core.Models;
 
@@ -16,7 +17,7 @@ public class NuGetService : INuGetService
 
     public NuGetService(HttpClient httpClient)
     {
-        _httpClient = httpClient;
+        _httpClient = new HttpClient();
         _jsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -40,7 +41,7 @@ public class NuGetService : INuGetService
         catch (Exception ex)
         {
             // In a real app, you would log this error
-            Console.WriteLine($"Error searching packages: {ex.Message}");
+            Debug.WriteLine($"Error searching packages: {ex.Message}");
             return new NuGetSearchResponse();
         }
     }
@@ -58,12 +59,12 @@ public class NuGetService : INuGetService
             // or
             // dotnet add package {packageId} --version {version}
             
-            Console.WriteLine($"Simulating installation of {packageId} version {version}");
+            Debug.WriteLine($"Simulating installation of {packageId} version {version}");
             return true;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error installing package: {ex.Message}");
+            Debug.WriteLine($"Error installing package: {ex.Message}");
             return false;
         }
     }

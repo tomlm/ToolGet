@@ -6,13 +6,41 @@
              RequestedThemeVariant="Default">
     
     <Application.Styles>
-        <FluentTheme />
+        <console:ModernTheme />
     </Application.Styles>
 
-    <Application.Resources>
-        <SolidColorBrush x:Key="PrimaryBrush" Color="#1976D2"/>
-        <SolidColorBrush x:Key="AccentBrush" Color="#2196F3"/>
-        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#F5F5F5"/>
-        <SolidColorBrush x:Key="CardBorderBrush" Color="#CCCCCC"/>
-    </Application.Resources>
+  <Application.Resources>
+    <!-- App / Window -->
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#F3F4F6"/>
+    <!-- light neutral to show white cards -->
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F3F4F6"/>
+
+    <!-- Brand / Accent -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#0369A1"/>
+    <!-- darker, good for headings -->
+    <SolidColorBrush x:Key="AccentBrush" Color="#0EA5E9"/>
+    <!-- more vibrant accent -->
+    <SolidColorBrush x:Key="OnAccentForegroundBrush" Color="#FFFFFFFF"/>
+
+    <!-- Text (high contrast) -->
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#111827"/>
+    <!-- almost black -->
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#6B7280"/>
+    <!-- medium gray -->
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#9CA3AF"/>
+    <!-- muted gray -->
+
+    <!-- Card surface (white on a subtle app background for visibility) -->
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#D1D5DB"/>
+    <SolidColorBrush x:Key="CardShadowBrush" Color="#22000000"/>
+
+    <!-- Badges -->
+    <SolidColorBrush x:Key="PreReleaseBadgeBackgroundBrush" Color="#F97316"/>
+    <!-- visible orange -->
+    <SolidColorBrush x:Key="PreReleaseBadgeForegroundBrush" Color="#FFFFFFFF"/>
+
+    <!-- Convenience aliases -->
+    <StaticResource x:Key="PrimaryTextBrush" ResourceKey="TextPrimaryBrush"/>
+  </Application.Resources>
 </Application>

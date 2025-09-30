@@ -6,97 +6,91 @@
         x:Class="ToolGet.Core.Views.Search"
         x:DataType="vm:SearchViewModel">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+  <Grid RowDefinitions="Auto Auto * Auto">
 
-        <!-- Search Header -->
-        <Border Grid.Row="0" Background="{DynamicResource PrimaryBrush}" Padding="20">
-            <StackPanel>
-                <TextBlock Text="ToolGet" FontSize="{console:OnPlatform '24',Console='1'}" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                <TextBlock Text="Search and install NuGet packages" FontSize="{console:OnPlatform '14',Console='1'}" Foreground="White" HorizontalAlignment="Center" Opacity="0.8"/>
-            </StackPanel>
-        </Border>
-
-        <!-- Search Controls -->
-        <Border Grid.Row="1" Background="#F5F5F5" Padding="20" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBox Grid.Column="0" 
-                         Text="{Binding SearchQuery}"
-                         Watermark="Enter package name or keywords..."
-                         FontSize="{console:OnPlatform '16',Console='1'}"
-                         Padding="12"
-                         Margin="0,0,10,0"/>
-
-                <Button Grid.Column="1"
-                        Content="Search"
-                        Command="{Binding SearchCommand}"
-                        IsEnabled="{Binding !IsSearching}"
-                        Background="{DynamicResource AccentBrush}"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        Padding="20,12"
-                        Margin="0,0,10,0"/>
-
-                <Button Grid.Column="2"
-                        Content="Clear"
-                        Command="{Binding ClearSearchCommand}"
-                        Background="Transparent"
-                        BorderBrush="#CCCCCC"
-                        Padding="15,12"/>
-            </Grid>
-        </Border>
-
-        <!-- Search Results -->
-        <ScrollViewer Grid.Row="2" Padding="20">
-            <StackPanel>
-                <!-- Status Message -->
-                <TextBlock Text="{Binding StatusMessage}"
-                           FontSize="{console:OnPlatform '14',Console='1'}"
-                           Margin="0,0,0,20"
-                           HorizontalAlignment="Center"
-                           IsVisible="{Binding !IsSearching}"/>
-
-                <!-- Loading Indicator -->
-                <StackPanel Orientation="Horizontal" 
-                           HorizontalAlignment="Center"
-                           IsVisible="{Binding IsSearching}"
-                           Margin="0,0,0,20">
-                    <TextBlock Text="🔄" FontSize="{console:OnPlatform 16,Console=1}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Searching packages..." FontSize="{console:OnPlatform '14',Console='1'}"/>
-                </StackPanel>
-
-                <!-- Package Results -->
-                <ItemsControl ItemsSource="{Binding SearchResults}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <views:PackageCard Margin="0,0,20,20"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </ScrollViewer>
-
-        <!-- Status Bar -->
-        <Border Grid.Row="3" Background="#EEEEEE" Padding="10" BorderBrush="#CCCCCC" BorderThickness="0,1,0,0">
-            <TextBlock Text="{Binding SearchResults.Count, StringFormat='Packages: {0}'}" 
-                       FontSize="{console:OnPlatform '12',Console=1}" 
-                       Foreground="#666666"/>
-        </Border>
+    <!-- Search Header -->
+    <Grid Background="{DynamicResource PrimaryBrush}">
+      <TextBlock Text="ToolGet"
+                 FontSize="{console:OnPlatform 24,Console=1}"
+                 FontWeight="Bold"
+                 Foreground="White"
+                 HorizontalAlignment="Center"/>
+      <TextBlock Text="Search and install NuGet packages"
+                 FontSize="{console:OnPlatform 14,Console=1}"
+                 Foreground="White"
+                 HorizontalAlignment="Center" />
     </Grid>
+
+    <!-- Search Controls -->
+    <Grid Grid.Row="1"
+          ColumnDefinitions="* Auto Auto"
+          RowDefinitions="Auto">
+      <TextBox Grid.Column="0"
+               Text="{Binding SearchQuery}"
+               Watermark="Enter package name or keywords..."
+               FontSize="{console:OnPlatform '16',Console=1}"
+               Padding="{console:OnPlatform 12, Console=0}"
+               Margin="{console:OnPlatform '0,0,10,0', Console='0'}"/>
+      
+      <Button Grid.Column="1"
+              Content="Search"
+              Command="{Binding SearchCommand}"
+              IsEnabled="{Binding !IsSearching}"
+              Background="{DynamicResource AccentBrush}"
+              Foreground="White"
+              FontWeight="Bold"
+              Padding="{console:OnPlatform Default='20,12', Console='1 0 1 0'}"
+              Margin="{console:OnPlatform Default='0,0,10,0', Console='0 0 1 0'}"/>
+    </Grid>
+
+    <!-- Search Results -->
+    <ScrollViewer Grid.Row="2">
+      <StackPanel>
+
+        <!-- Loading Indicator -->
+
+        <StackPanel Orientation="Horizontal"
+                   HorizontalAlignment="Center"
+                   IsVisible="{Binding IsSearching}"
+                   Margin="{console:OnPlatform Default='0,0,0,20', Console='0'}">
+
+          <TextBlock Text="🔄" FontSize="{console:OnPlatform Default='16',Console=1}" Margin="{console:OnPlatform Default='0,0,10,0', Console='0'}"/>
+          <TextBlock Text="Searching packages..." FontSize="{console:OnPlatform Default=14,Console=1}"/>
+
+        </StackPanel>
+
+
+        <!-- Package Results -->
+        <ItemsControl ItemsSource="{Binding SearchResults}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <views:PackageCard Margin="{console:OnPlatform Default='0,0,20,20', Console=1}"/>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- Status Bar -->
+    <Grid Grid.Row="3"
+          ColumnDefinitions="* Auto"
+          Background="#EEEEEE">
+      <!-- Status Message -->
+      <TextBlock Text="{Binding StatusMessage}"
+                 FontSize="{console:OnPlatform Default=14,Console=1}"
+                 Margin="{console:OnPlatform Default='0,0,0,20', Console='0'}"
+                 HorizontalAlignment="Center"
+                 IsVisible="{Binding !IsSearching}"/>
+      <TextBlock Grid.Column="1"
+                 Text="{Binding SearchResults.Count, StringFormat='Packages: {0}'}"
+                 FontSize="{console:OnPlatform Default='12',Console=1}"
+                 Foreground="#666666"/>
+
+    </Grid>
+  </Grid>
 </UserControl>
