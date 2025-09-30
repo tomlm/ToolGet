@@ -33,6 +33,6 @@ internal class Program
             .ConfigureServices((context, services) =>
             {
                 services.AddHttpClient<INuGetService, NuGetService>();
-                services.AddTransient<MainViewModel>();
+                services.AddTransient<SearchViewModel>();
             });
 }

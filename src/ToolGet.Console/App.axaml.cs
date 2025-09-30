@@ -30,7 +30,7 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+            var mainViewModel = _serviceProvider.GetRequiredService<SearchViewModel>();
             desktop.MainWindow = new MainWindow
             {
                 DataContext = mainViewModel
@@ -44,7 +44,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
         services.AddHttpClient<INuGetService, NuGetService>();
-        services.AddTransient<MainViewModel>();
+        services.AddTransient<SearchViewModel>();
         return services.BuildServiceProvider();
     }
 }

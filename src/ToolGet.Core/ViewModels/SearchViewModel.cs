@@ -6,7 +6,7 @@ using ToolGet.Core.Services;
 
 namespace ToolGet.Core.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public partial class SearchViewModel : ObservableObject
 {
     private readonly INuGetService _nugetService;
 
@@ -24,7 +24,7 @@ public partial class MainViewModel : ObservableObject
 
     public ObservableCollection<PackageCardViewModel> SearchResults { get; } = new();
 
-    public MainViewModel(INuGetService nugetService)
+    public SearchViewModel(INuGetService nugetService)
     {
         _nugetService = nugetService;
     }

@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace ToolGet.Desktop.Views;
+namespace ToolGet.Core.Views;
 
 public partial class PackageCard : UserControl
 {
