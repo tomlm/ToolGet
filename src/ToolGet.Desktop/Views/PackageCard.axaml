@@ -1,101 +1,109 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
-             x:Class="ToolGet.Desktop.Views.PackageCard"
-             x:DataType="vm:PackageCardViewModel"
-             Width="350"
-             Height="200">
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
+           xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+           x:Class="ToolGet.Desktop.Views.PackageCard"
+           x:DataType="vm:PackageCardViewModel"
+           Width="350">
 
-    <Design.DataContext>
-        <vm:PackageCardViewModel/>
-    </Design.DataContext>
+  <Design.DataContext>
+    <vm:PackageCardViewModel/>
+  </Design.DataContext>
 
-    <Border Background="{DynamicResource CardBackgroundBrush}"
-            BorderBrush="{DynamicResource CardBorderBrush}"
-            BorderThickness="1"
-            CornerRadius="8"
-            Padding="16">
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="4" OffsetX="0" OffsetY="2" Opacity="0.1"/>
-        </Border.Effect>
+  <Border Background="{DynamicResource CardBackgroundBrush}"
+          BorderBrush="{DynamicResource CardBorderBrush}"
+          BorderThickness="1"
+          CornerRadius="8"
+          Padding="16">
+    <Border.Effect>
+      <DropShadowEffect BlurRadius="4" OffsetX="0" OffsetY="2" Opacity="0.1"/>
+    </Border.Effect>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
 
-            <!-- Package Title and Version -->
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
-                <TextBlock Text="{Binding Title}" 
-                           FontWeight="Bold" 
-                           FontSize="16"
-                           TextTrimming="CharacterEllipsis"
-                           VerticalAlignment="Center"/>
-                <Border Background="Orange"
-                        Padding="4,2"
-                        CornerRadius="3"
-                        Margin="8,0,0,0"
-                        IsVisible="{Binding IsPrerelease}">
-                    <TextBlock Text="Pre" FontSize="10" Foreground="White" FontWeight="Bold"/>
-                </Border>
-            </StackPanel>
+      <!-- Package Title and Icon -->
+      <Grid Grid.Row="0" Margin="0,0,0,8" ColumnDefinitions="Auto * Auto" RowDefinitions="Auto Auto" >
 
-            <!-- Package ID and Version -->
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
-                <TextBlock Text="{Binding Id}" 
-                           FontSize="12" 
-                           Foreground="#666666"
-                           TextTrimming="CharacterEllipsis"/>
-                <TextBlock Text=" v" FontSize="12" Foreground="#666666"/>
-                <TextBlock Text="{Binding Version}" 
-                           FontSize="12" 
-                           Foreground="#666666"
-                           FontWeight="Bold"/>
-            </StackPanel>
+        <!-- Icon bound to IconUrl -->
+        <Image asyncImageLoader:ImageLoader.Source="{Binding IconUrl}"
+               Grid.Column="0" Grid.RowSpan="2"
+               Margin="0 0 8 0"
+               MaxWidth="48"
+               MaxHeight="48"
+               Stretch="UniformToFill"/>
 
-            <!-- Description -->
-            <TextBlock Grid.Row="2" 
-                       Text="{Binding Description}"
-                       FontSize="13"
-                       TextWrapping="Wrap"
-                       TextTrimming="WordEllipsis"
-                       MaxLines="3"
-                       Margin="0,0,0,12"
-                       Foreground="#333333"/>
+        <TextBlock Margin="4"
+                   Text="{Binding Title}"
+                   Grid.Column="1"
+                   FontWeight="Bold"
+                   FontSize="16"
+                   Foreground="{DynamicResource TextPrimaryBrush}"
+                   TextTrimming="CharacterEllipsis"
+                   VerticalAlignment="Center"/>
 
-            <!-- Authors and Downloads -->
-            <StackPanel Grid.Row="3" Margin="0,0,0,12">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                    <TextBlock Text="👤" FontSize="12" Margin="0,0,4,0"/>
-                    <TextBlock Text="{Binding Authors}" 
-                               FontSize="11" 
-                               Foreground="#666666"
-                               TextTrimming="CharacterEllipsis"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="⬇️" FontSize="12" Margin="0,0,4,0"/>
-                    <TextBlock Text="{Binding DownloadsString}" 
-                               FontSize="11" 
-                               Foreground="#666666"/>
-                    <TextBlock Text=" downloads" FontSize="11" Foreground="#666666"/>
-                </StackPanel>
-            </StackPanel>
+        <Border Background="{DynamicResource PreReleaseBadgeBackgroundBrush}"
+                Grid.Column="2"
+                Padding="4,2"
+                CornerRadius="3"
+                Margin="8,0,0,0"
+                IsVisible="{Binding IsPrerelease}">
+          <TextBlock Text="Pre" FontSize="10" Foreground="{DynamicResource PreReleaseBadgeForegroundBrush}" FontWeight="Bold"/>
+        </Border>
+        <!-- Authors and Downloads -->
+        <StackPanel Grid.Row="1" Grid.Column="1"  >
+          <StackPanel Orientation="Horizontal" >
+            <TextBlock Text="👤" FontSize="12" />
+            <TextBlock Text="{Binding Authors}"
+                       FontSize="11"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
+                       TextTrimming="CharacterEllipsis"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding DownloadsString}"
+                       FontSize="11"
+                       Foreground="{DynamicResource TextSecondaryBrush}"/>
+            <TextBlock Text=" downloads" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"/>
+          </StackPanel>
+        </StackPanel>
 
-            <!-- Install Button -->
-            <Button Grid.Row="4"
-                    Content="{Binding InstallButtonText}"
-                    Command="{Binding InstallCommand}"
-                    IsEnabled="{Binding !IsInstalling}"
-                    Background="{DynamicResource AccentBrush}"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    Padding="0,8"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"/>
-        </Grid>
-    </Border>
+      </Grid>
+
+      <!-- Package ID and Version -->
+      <StackPanel Grid.Row="1"
+                  Orientation="Horizontal"
+                  Margin="0,0,0,8" >
+        <TextBlock Text="{Binding Id}"
+                   FontSize="12"
+                   Foreground="{DynamicResource TextSecondaryBrush}"
+                   TextTrimming="CharacterEllipsis"/>
+        <TextBlock Text=" v" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+        <TextBlock Text="{Binding Version}"
+                   FontSize="12"
+                   Foreground="{DynamicResource TextSecondaryBrush}"
+                   FontWeight="Bold"/>
+      </StackPanel>
+
+      <!-- Description -->
+      <TextBlock Grid.Row="2"
+                 Text="{Binding Description}"
+                 FontSize="13"
+                 TextWrapping="Wrap"
+                 TextTrimming="WordEllipsis"
+                 Foreground="{DynamicResource TextSecondaryBrush}"
+                 MaxLines="3" />
+
+
+      <!-- Install Button -->
+      <Button Grid.Row="4"
+              Content="{Binding InstallButtonText}"
+              Command="{Binding InstallCommand}"
+              IsEnabled="{Binding !IsInstalling}"
+              Background="{DynamicResource AccentBrush}"
+              Foreground="{DynamicResource OnAccentForegroundBrush}"
+              FontWeight="Bold"
+              Padding="0,8"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"/>
+    </Grid>
+  </Border>
 </UserControl>
