@@ -4,7 +4,7 @@
         xmlns:views="clr-namespace:ToolGet.Desktop.Views"
         x:Class="ToolGet.Desktop.Views.MainWindow"
         x:DataType="vm:MainViewModel"
-        Icon="/Assets/icon.ico"
+     
         Title="ToolGet - NuGet Package Search"
         Width="1200"
         Height="800"

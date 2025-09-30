@@ -27,7 +27,13 @@
             </Grid.ColumnDefinitions>
 
             <!-- Package Title and Version -->
-            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <!-- Icon -->
+                <Image Source="{Binding IconUrl}"
+                       Width="32" Height="32"
+                       Margin="0,0,6,0"
+                       Stretch="UniformToFill"
+                       VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding Title}" 
                            FontWeight="Bold" 
                            TextTrimming="CharacterEllipsis"/>

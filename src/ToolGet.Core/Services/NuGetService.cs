@@ -27,7 +27,7 @@ public class NuGetService : INuGetService
     {
         try
         {
-            var searchUrl = $"https://azuresearch-usnc.nuget.org/query?q={Uri.EscapeDataString(query)}&skip={skip}&take={take}&prerelease=true";
+            var searchUrl = $"https://azuresearch-usnc.nuget.org/query?q={Uri.EscapeDataString(query)}&packageType=DotnetTool&skip={skip}&take={take}&prerelease=true";
             
             var response = await _httpClient.GetAsync(searchUrl);
             response.EnsureSuccessStatusCode();
