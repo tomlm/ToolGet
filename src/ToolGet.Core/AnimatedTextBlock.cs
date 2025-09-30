@@ -36,7 +36,7 @@ namespace ToolGet.Core
             AvaloniaProperty.Register<AnimatedTextBlock, TextAnimationType>(nameof(AnimationType));
 
         public static readonly StyledProperty<IEnumerable<string>?> FramesProperty =
-            AvaloniaProperty.Register<AnimatedTextBlock, IEnumerable<string>?>(nameof(Frames));
+            AvaloniaProperty.Register<AnimatedTextBlock, IEnumerable<string>?>(nameof(Frames), defaultValue: Animations.Arcs);
 
         public static readonly StyledProperty<bool> IsAnimatingProperty =
             AvaloniaProperty.Register<AnimatedTextBlock, bool>(nameof(IsAnimating), defaultValue: false);
@@ -56,7 +56,7 @@ namespace ToolGet.Core
         }
 
 
-        public TextAnimationType AnimationType
+        public TextAnimationType? AnimationType
         {
             get => GetValue(AnimationTypeProperty);
             set
