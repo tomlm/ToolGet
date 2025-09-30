@@ -11,7 +11,12 @@ ToolGet is a command line UI for searching for and installing dotnet tools.
 ### Installing the Application
 
 ```bash
-dotnet tool install -g ToolGet
+dotnet tool install -g ToolGet.Console
+```
+
+### Usage
+```bash
+toolget 
 ```
 
 ## License

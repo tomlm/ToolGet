@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,14 +7,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
     <Description>ToolGet is a tool which makes it easy to search and install dotnet tools.</Description>
     <Company>Iciclecreek</Company>
     <Authors>Tom Laird-McConnell</Authors>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>ToolGet</ToolCommandName>
-    <PackageId>ToolGet</PackageId>
+    <ToolCommandName>toolget</ToolCommandName>
+    <PackageId>ToolGet.Console</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/tomlm/ToolGet</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/tomlm/ToolGet/master/icon.png</PackageIconUrl>
