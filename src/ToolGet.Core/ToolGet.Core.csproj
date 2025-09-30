@@ -11,6 +11,7 @@
     <PackageReference Include="Avalonia" Version="11.3.4" />
     <PackageReference Include="Consolonia" Version="11.3.4-beta.1604" />
     <PackageReference Include="Consolonia.Controls" Version="11.3.4-beta.1604" />
+    <PackageReference Include="CShell" Version="2.0.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
   </ItemGroup>

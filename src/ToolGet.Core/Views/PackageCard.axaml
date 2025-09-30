@@ -11,7 +11,7 @@
 
   <Border Background="{DynamicResource CardBackgroundBrush}"
           BorderBrush="{DynamicResource CardBorderBrush}"
-          BorderThickness="{console:OnPlatform Default='1', Console='1'}"
+          BorderThickness="{console:OnPlatform Default=1, Console=1}"
           CornerRadius="{console:OnPlatform Default='8', Console='0'}"
           Padding="{console:OnPlatform Default='16', Console='0'}">
 
@@ -32,7 +32,7 @@
                MaxHeight="{console:OnPlatform Default='48', Console='6'}"
                Stretch="UniformToFill"/>
 
-        <TextBlock Margin="{console:OnPlatform Default='4', Console='1'}"
+        <TextBlock Margin="{console:OnPlatform Default='4', Console=1}"
                    Text="{Binding Title}"
                    Grid.Column="1"
                    FontWeight="Bold"
@@ -47,22 +47,22 @@
                 CornerRadius="{console:OnPlatform Default='3', Console='0'}"
                 Margin="{console:OnPlatform Default='8,0,0,0', Console='1,0,0,0'}"
                 IsVisible="{Binding IsPrerelease}">
-          <TextBlock Text="Pre" FontSize="{console:OnPlatform '10',Console='1'}" Foreground="{DynamicResource PreReleaseBadgeForegroundBrush}" FontWeight="Bold"/>
+          <TextBlock Text="Pre" FontSize="{console:OnPlatform 10,Console=1}" Foreground="{DynamicResource PreReleaseBadgeForegroundBrush}" FontWeight="Bold"/>
         </Border>
         <!-- Authors and Downloads -->
         <StackPanel Grid.Row="1" Grid.Column="1"  >
           <StackPanel Orientation="Horizontal" >
-            <TextBlock Text="👤" FontSize="{console:OnPlatform Default='12',Console='1'}" />
+            <TextBlock Text="👤" FontSize="{console:OnPlatform Default=12,Console=1}" />
             <TextBlock Text="{Binding Authors}"
-                       FontSize="{console:OnPlatform '11',Console='1'}"
+                       FontSize="{console:OnPlatform 11,Console=1}"
                        Foreground="{DynamicResource TextSecondaryBrush}"
                        TextTrimming="CharacterEllipsis"/>
           </StackPanel>
           <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding DownloadsString}"
-                       FontSize="{console:OnPlatform '11',Console='1'}"
+                       FontSize="{console:OnPlatform 11,Console=1}"
                        Foreground="{DynamicResource TextSecondaryBrush}"/>
-            <TextBlock Text=" downloads" FontSize="{console:OnPlatform '11',Console='1'}" Foreground="{DynamicResource TextSecondaryBrush}"/>
+            <TextBlock Text=" downloads" FontSize="{console:OnPlatform '11',Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
           </StackPanel>
         </StackPanel>
 
@@ -73,12 +73,12 @@
                   Orientation="Horizontal"
                   Margin="{console:OnPlatform Default='0,0,0,8', Console='0,0,0,1'}" >
         <TextBlock Text="{Binding Id}"
-                   FontSize="{console:OnPlatform '12',Console=1}"
+                   FontSize="{console:OnPlatform 12,Console=1}"
                    Foreground="{DynamicResource TextSecondaryBrush}"
                    TextTrimming="CharacterEllipsis"/>
-        <TextBlock Text=" v" FontSize="{console:OnPlatform '12',Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
+        <TextBlock Text=" v" FontSize="{console:OnPlatform 12,Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
         <TextBlock Text="{Binding Version}"
-                   FontSize="{console:OnPlatform '12',Console=1}"
+                   FontSize="{console:OnPlatform 12,Console=1}"
                    Foreground="{DynamicResource TextSecondaryBrush}"
                    FontWeight="Bold"/>
       </StackPanel>
@@ -86,7 +86,7 @@
       <!-- Description -->
       <TextBlock Grid.Row="2"
                  Text="{Binding Description}"
-                 FontSize="{console:OnPlatform '13',Console='1'}"
+                 FontSize="{console:OnPlatform 13,Console=1}"
                  TextWrapping="Wrap"
                  TextTrimming="WordEllipsis"
                  Foreground="{DynamicResource TextSecondaryBrush}"

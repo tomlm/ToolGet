@@ -9,13 +9,15 @@
   <Grid RowDefinitions="Auto Auto * Auto">
 
     <!-- Search Header -->
-    <Grid Background="{DynamicResource PrimaryBrush}">
+    <Grid Background="{DynamicResource PrimaryBrush}" RowDefinitions="Auto Auto">
       <TextBlock Text="ToolGet"
                  FontSize="{console:OnPlatform 24,Console=1}"
                  FontWeight="Bold"
                  Foreground="White"
+                 TextDecorations="Underline"
                  HorizontalAlignment="Center"/>
-      <TextBlock Text="Search and install NuGet packages"
+      <TextBlock Grid.Row="1"
+                Text="Search and install dotnet tools"
                  FontSize="{console:OnPlatform 14,Console=1}"
                  Foreground="White"
                  HorizontalAlignment="Center" />
@@ -28,7 +30,7 @@
       <TextBox Grid.Column="0"
                Text="{Binding SearchQuery}"
                Watermark="Enter package name or keywords..."
-               FontSize="{console:OnPlatform '16',Console=1}"
+               FontSize="{console:OnPlatform 16,Console=1}"
                Padding="{console:OnPlatform 12, Console=0}"
                Margin="{console:OnPlatform '0,0,10,0', Console='0'}"/>
       
@@ -39,8 +41,7 @@
               Background="{DynamicResource AccentBrush}"
               Foreground="White"
               FontWeight="Bold"
-              Padding="{console:OnPlatform Default='20,12', Console='1 0 1 0'}"
-              Margin="{console:OnPlatform Default='0,0,10,0', Console='0 0 1 0'}"/>
+              Padding="{console:OnPlatform Default='20,12', Console='1 0 1 0'}"/>
     </Grid>
 
     <!-- Search Results -->
