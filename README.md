@@ -1,5 +1,7 @@
 # ToolGet
-ToolGet is a Cross-platform NuGet Package Search Tool for installing dotnet tools.
+ToolGet is a command line UI for installing dotnet tools.
+
+![ToolGet](https://github.com/tomlm/ToolGet.Console/Assets/Screenshot.png)
 
 ## Features
 🔍 **Package Search**

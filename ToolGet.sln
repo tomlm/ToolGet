@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolGet.Desktop", "src\Tool
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolGet", "src\ToolGet\ToolGet.csproj", "{0814F5CF-1438-4BF7-B149-14F3A1AB1884}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,5 +67,8 @@ Global
 		{D1BDF2ED-AE11-4DAF-A7D3-A71DCB69B2B3} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{620497F9-7CA9-4110-9C88-7A9104346701} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{0814F5CF-1438-4BF7-B149-14F3A1AB1884} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D0A5032-8007-46DC-8E4E-6D7865D81C54}
 	EndGlobalSection
 EndGlobal
