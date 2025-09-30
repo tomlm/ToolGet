@@ -1,7 +1,7 @@
 # ToolGet
-ToolGet is a command line UI for installing dotnet tools.
+ToolGet is a command line UI for searching for and installing dotnet tools.
 
-![ToolGet](https://github.com/tomlm/ToolGet.Console/Assets/Screenshot.png)
+![ToolGet](https://raw.githubusercontent.com/tomlm/ToolGet/main/Assets/Screenshot.png)
 
 ## Features
 🔍 **Package Search**
