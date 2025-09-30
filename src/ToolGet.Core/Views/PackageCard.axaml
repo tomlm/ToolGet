@@ -2,13 +2,12 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
            xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+           xmlns:console="clr-namespace:Consolonia.Markup;assembly=Consolonia.Controls"
            x:Class="ToolGet.Core.Views.PackageCard"
            x:DataType="vm:PackageCardViewModel"
            Width="350">
 
-  <Design.DataContext>
-    <vm:PackageCardViewModel/>
-  </Design.DataContext>
+  <!-- Design.DataContext removed to avoid requiring parameterless ctor in viewmodel during build -->
 
   <Border Background="{DynamicResource CardBackgroundBrush}"
           BorderBrush="{DynamicResource CardBorderBrush}"
@@ -36,7 +35,7 @@
                    Text="{Binding Title}"
                    Grid.Column="1"
                    FontWeight="Bold"
-                   FontSize="16"
+                   FontSize="{console:PlatformEx 16,Console=1}"
                    Foreground="{DynamicResource TextPrimaryBrush}"
                    TextTrimming="CharacterEllipsis"
                    VerticalAlignment="Center"/>
@@ -47,22 +46,22 @@
                 CornerRadius="3"
                 Margin="8,0,0,0"
                 IsVisible="{Binding IsPrerelease}">
-          <TextBlock Text="Pre" FontSize="10" Foreground="{DynamicResource PreReleaseBadgeForegroundBrush}" FontWeight="Bold"/>
+          <TextBlock Text="Pre" FontSize="{console:PlatformEx 10,Console=1}" Foreground="{DynamicResource PreReleaseBadgeForegroundBrush}" FontWeight="Bold"/>
         </Border>
         <!-- Authors and Downloads -->
         <StackPanel Grid.Row="1" Grid.Column="1"  >
           <StackPanel Orientation="Horizontal" >
-            <TextBlock Text="👤" FontSize="12" />
+            <TextBlock Text="👤" FontSize="{console:PlatformEx 12,Console=1}" />
             <TextBlock Text="{Binding Authors}"
-                       FontSize="11"
+                       FontSize="{console:PlatformEx 11,Console=1}"
                        Foreground="{DynamicResource TextSecondaryBrush}"
                        TextTrimming="CharacterEllipsis"/>
           </StackPanel>
           <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding DownloadsString}"
-                       FontSize="11"
+                       FontSize="{console:PlatformEx 11,Console=1}"
                        Foreground="{DynamicResource TextSecondaryBrush}"/>
-            <TextBlock Text=" downloads" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"/>
+            <TextBlock Text=" downloads" FontSize="{console:PlatformEx 11,Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
           </StackPanel>
         </StackPanel>
 
@@ -73,12 +72,12 @@
                   Orientation="Horizontal"
                   Margin="0,0,0,8" >
         <TextBlock Text="{Binding Id}"
-                   FontSize="12"
+                   FontSize="{console:PlatformEx 12,Console=1}"
                    Foreground="{DynamicResource TextSecondaryBrush}"
                    TextTrimming="CharacterEllipsis"/>
-        <TextBlock Text=" v" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+        <TextBlock Text=" v" FontSize="{console:PlatformEx 12,Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
         <TextBlock Text="{Binding Version}"
-                   FontSize="12"
+                   FontSize="{console:PlatformEx 12,Console=1}"
                    Foreground="{DynamicResource TextSecondaryBrush}"
                    FontWeight="Bold"/>
       </StackPanel>
@@ -86,7 +85,7 @@
       <!-- Description -->
       <TextBlock Grid.Row="2"
                  Text="{Binding Description}"
-                 FontSize="13"
+                 FontSize="{console:PlatformEx 13,Console=1}"
                  TextWrapping="Wrap"
                  TextTrimming="WordEllipsis"
                  Foreground="{DynamicResource TextSecondaryBrush}"

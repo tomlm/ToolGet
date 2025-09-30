@@ -1,5 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:console="https://github.com/jinek/consolonia"
              x:Class="ToolGet.Console.App"
              Name="ToolGet"
              RequestedThemeVariant="Default">
