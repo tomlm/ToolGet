@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using System.Text.Json;
 using ToolGet.Core.Models;
+using CShellNet;
+using static CShellNet.Globals;
 
 namespace ToolGet.Core.Services;
 
@@ -8,6 +10,7 @@ public interface INuGetService
 {
     Task<NuGetSearchResponse> SearchPackagesAsync(string query, int skip = 0, int take = 20);
     Task<bool> InstallPackageAsync(string packageId, string version);
+    Task<bool> UnInstallPackageAsync(string packageId, string version);
 }
 
 public class NuGetService : INuGetService
@@ -50,17 +53,8 @@ public class NuGetService : INuGetService
     {
         try
         {
-            // This would typically call dotnet tool install or dotnet add package
-            // For now, we'll simulate the installation
-            await Task.Delay(1000); // Simulate installation time
-            
-            // In a real implementation, you would execute:
-            // dotnet tool install -g {packageId} --version {version}
-            // or
-            // dotnet add package {packageId} --version {version}
-            
-            Debug.WriteLine($"Simulating installation of {packageId} version {version}");
-            return true;
+            var result = await Cmd("dotnet tool install -g " + packageId + (string.IsNullOrEmpty(version) ? "" : " --version " + version)).Execute();
+            return result.ExitCode == 0;
         }
         catch (Exception ex)
         {
@@ -68,4 +62,20 @@ public class NuGetService : INuGetService
             return false;
         }
     }
+
+    public async Task<bool> UnInstallPackageAsync(string packageId, string version)
+    {
+        try
+        {
+            // var result = await Cmd("dotnet tool uninstall -g " + packageId + (string.IsNullOrEmpty(version) ? "" : " --version " + version)).Execute();
+            var result = await Cmd($"dotnet tool uninstall -g {packageId}").Execute();
+            return result.ExitCode == 0;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error uninstalling package: {ex.Message}");
+            return false;
+        }
+    }
+
 }

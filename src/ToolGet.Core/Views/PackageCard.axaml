@@ -95,15 +95,29 @@
 
       <!-- Install Button -->
       <Button Grid.Row="4"
-              Content="{Binding InstallButtonText}"
+              Content="Install"
               Command="{Binding InstallCommand}"
               IsEnabled="{Binding !IsInstalling}"
+              IsVisible="{Binding !IsInstalled}"
               Background="{DynamicResource AccentBrush}"
               Foreground="{DynamicResource OnAccentForegroundBrush}"
               FontWeight="Bold"
               Padding="{console:OnPlatform Default='0,8', Console='0,1'}"
               HorizontalAlignment="Stretch"
               HorizontalContentAlignment="Center"/>
+
+      <Button Grid.Row="4"
+              Content="Uninstall"
+              Command="{Binding UnInstallCommand}"
+              IsEnabled="{Binding !IsInstalling}"
+              IsVisible="{Binding IsInstalled}"
+              Background="{DynamicResource AccentBrush}"
+              Foreground="{DynamicResource OnAccentForegroundBrush}"
+              FontWeight="Bold"
+              Padding="{console:OnPlatform Default='0,8', Console='0,1'}"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"/>
+
     </Grid>
   </Border>
 </UserControl>

@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ToolGet.Core.Models;
 using ToolGet.Core.Services;
+using CShellNet;
+using static CShellNet.Globals;
 
 namespace ToolGet.Core.ViewModels;
 
@@ -32,23 +34,26 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task SearchAsync()
     {
-        if (IsSearching || string.IsNullOrWhiteSpace(SearchQuery)) 
+        if (IsSearching || string.IsNullOrWhiteSpace(SearchQuery))
             return;
+
+        var installedTools = await GetTools();
 
         IsSearching = true;
         StatusMessage = "Searching packages...";
         SearchResults.Clear();
 
+
         try
         {
             var response = await _nugetService.SearchPackagesAsync(SearchQuery.Trim(), 0, 50);
-            
+
             if (response.Data.Length > 0)
             {
                 foreach (var packageData in response.Data)
                 {
                     var package = NuGetPackage.FromPackageData(packageData);
-                    var viewModel = new PackageCardViewModel(package, _nugetService);
+                    var viewModel = new PackageCardViewModel(package, _nugetService, installedTools.Contains(package.Id, StringComparer.OrdinalIgnoreCase));
                     SearchResults.Add(viewModel);
                 }
                 StatusMessage = $"Found {response.TotalHits} packages (showing {response.Data.Length})";
@@ -76,5 +81,29 @@ public partial class SearchViewModel : ObservableObject
         SearchResults.Clear();
         HasSearched = false;
         StatusMessage = "Enter a search term and click Search to find NuGet packages";
+    }
+
+    private async Task<List<string>> GetTools()
+    {
+        try
+        {
+            Echo = false;
+            var result = await Cmd("dotnet tool list -g").AsString();
+            var tools = new List<string>();
+            var lines = result.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines.Skip(2)) // Skip header lines
+            {
+                var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length > 0)
+                {
+                    tools.Add(parts[0]); // Tool id is the first part
+                }
+            }
+            return tools;
+        }
+        catch
+        {
+            return new List<string>();
+        }
     }
 }

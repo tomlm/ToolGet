@@ -11,42 +11,45 @@ public partial class PackageCardViewModel : ObservableObject
     private readonly INuGetService _nugetService;
 
     [ObservableProperty]
-    private string id = string.Empty;
+    private string _id = string.Empty;
 
     [ObservableProperty]
-    private string version = string.Empty;
+    private string _version = string.Empty;
 
     [ObservableProperty]
-    private string title = string.Empty;
+    private string _title = string.Empty;
 
     [ObservableProperty]
-    private string description = string.Empty;
+    private string _description = string.Empty;
 
     [ObservableProperty]
-    private string authors = string.Empty;
+    private string _authors = string.Empty;
 
     [ObservableProperty]
-    private long totalDownloads;
+    private long _totalDownloads;
 
     [ObservableProperty]
-    private string projectUrl = string.Empty;
+    private string _projectUrl = string.Empty;
 
     [ObservableProperty]
-    private string iconUrl = string.Empty;
+    private string _iconUrl = string.Empty;
 
     [ObservableProperty]
-    private string[] tags = Array.Empty<string>();
+    private string[] _tags = Array.Empty<string>();
 
     [ObservableProperty]
-    private bool isPrerelease;
+    private bool _isPrerelease;
 
     [ObservableProperty]
-    private bool isInstalling;
+    private bool _isInstalling;
 
     [ObservableProperty]
-    private string installButtonText = "Install";
+    private string _installButtonText = "Install";
 
-    public PackageCardViewModel(NuGetPackage package, INuGetService nugetService)
+    [ObservableProperty]
+    private bool _isInstalled;
+
+    public PackageCardViewModel(NuGetPackage package, INuGetService nugetService, bool isInstalled)
     {
         _nugetService = nugetService;
         Id = package.Id;
@@ -59,6 +62,7 @@ public partial class PackageCardViewModel : ObservableObject
         IconUrl = package.IconUrl;
         Tags = package.Tags;
         IsPrerelease = package.IsPrerelease;
+        IsInstalled = isInstalled;
     }
 
     [RelayCommand]
@@ -67,27 +71,35 @@ public partial class PackageCardViewModel : ObservableObject
         if (IsInstalling) return;
 
         IsInstalling = true;
-        InstallButtonText = "Installing...";
 
         try
         {
             var success = await _nugetService.InstallPackageAsync(Id, Version);
             if (success)
             {
-                InstallButtonText = "Installed";
-            }
-            else
-            {
-                InstallButtonText = "Install Failed";
-                await Task.Delay(2000);
-                InstallButtonText = "Install";
+                IsInstalled = true;
             }
         }
-        catch
+        finally
         {
-            InstallButtonText = "Install Failed";
-            await Task.Delay(2000);
-            InstallButtonText = "Install";
+            IsInstalling = false;
+        }
+    }
+
+    [RelayCommand]
+    private async Task UnInstallAsync()
+    {
+        if (IsInstalling) return;
+
+        IsInstalling = true;
+
+        try
+        {
+            var success = await _nugetService.UnInstallPackageAsync(Id, Version);
+            if (success)
+            {
+                IsInstalled = false;
+            }   
         }
         finally
         {
