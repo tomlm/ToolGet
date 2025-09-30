@@ -1,11 +1,12 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-           xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
-           xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
-           xmlns:console="https://github.com/jinek/consolonia"
-           x:Class="ToolGet.Core.Views.PackageCard"
-           x:DataType="vm:PackageCardViewModel"
-           Width="{console:OnPlatform Default='350', Console='45'}">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             xmlns:console="https://github.com/jinek/consolonia"
+             xmlns:local="using:ToolGet.Core"
+             x:Class="ToolGet.Core.Views.PackageCard"
+             x:DataType="vm:PackageCardViewModel"
+             Width="{console:OnPlatform Default='350', Console='45'}">
 
   <!-- Design.DataContext removed to avoid requiring parameterless ctor in viewmodel during build -->
 
@@ -106,6 +107,22 @@
               HorizontalAlignment="Stretch"
               HorizontalContentAlignment="Center"/>
 
+      <Button Grid.Row="4"
+              IsVisible="{Binding IsInstalling}"
+              IsEnabled="false"
+              Background="{DynamicResource AccentBrush}"
+              Foreground="{DynamicResource OnAccentForegroundBrush}"
+              Padding="{console:OnPlatform Default='0,8', Console='0,1'}"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center">
+          <local:AnimatedTextBlock
+              IsVisible="{Binding IsInstalling}"
+              IsAnimating="{Binding IsInstalling}"
+              AnimationType="Wave"
+              FontSize="{console:OnPlatform Default='14', Console='1'}" 
+              Foreground="{DynamicResource OnAccentForegroundBrush}" />
+      </Button>
+      <!-- UnInstall Button -->
       <Button Grid.Row="4"
               Content="Uninstall"
               Command="{Binding UnInstallCommand}"
