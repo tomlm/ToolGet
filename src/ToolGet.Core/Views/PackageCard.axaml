@@ -2,7 +2,7 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
            xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
-           xmlns:console="clr-namespace:Consolonia.Markup;assembly=Consolonia.Controls"
+           xmlns:console="https://github.com/jinek/consolonia"
            x:Class="ToolGet.Core.Views.PackageCard"
            x:DataType="vm:PackageCardViewModel"
            Width="350">
@@ -35,7 +35,7 @@
                    Text="{Binding Title}"
                    Grid.Column="1"
                    FontWeight="Bold"
-                   FontSize="{console:PlatformEx 16,Console=1}"
+                   FontSize="{console:OnPlatform 16,Console=1}"
                    Foreground="{DynamicResource TextPrimaryBrush}"
                    TextTrimming="CharacterEllipsis"
                    VerticalAlignment="Center"/>
@@ -46,63 +46,15 @@
                 CornerRadius="3"
                 Margin="8,0,0,0"
                 IsVisible="{Binding IsPrerelease}">
-          <TextBlock Text="Pre" FontSize="{console:PlatformEx 10,Console=1}" Foreground="{DynamicResource PreReleaseBadgeForegroundBrush}" FontWeight="Bold"/>
+          <TextBlock Text="Pre" FontSize="{console:OnPlatform '10',Console='1'}" Foreground="{DynamicResource PreReleaseBadgeForegroundBrush}" FontWeight="Bold"/>
         </Border>
         <!-- Authors and Downloads -->
         <StackPanel Grid.Row="1" Grid.Column="1"  >
           <StackPanel Orientation="Horizontal" >
-            <TextBlock Text="👤" FontSize="{console:PlatformEx 12,Console=1}" />
+            <TextBlock Text="👤" FontSize="{console:OnPlatform Default='12',Console='1'}" />
             <TextBlock Text="{Binding Authors}"
-                       FontSize="{console:PlatformEx 11,Console=1}"
+                       FontSize="{console:OnPlatform '11',Console='1'}"
                        Foreground="{DynamicResource TextSecondaryBrush}"
                        TextTrimming="CharacterEllipsis"/>
           </StackPanel>
-          <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding DownloadsString}"
-                       FontSize="{console:PlatformEx 11,Console=1}"
-                       Foreground="{DynamicResource TextSecondaryBrush}"/>
-            <TextBlock Text=" downloads" FontSize="{console:PlatformEx 11,Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
-          </StackPanel>
-        </StackPanel>
-
-      </Grid>
-
-      <!-- Package ID and Version -->
-      <StackPanel Grid.Row="1"
-                  Orientation="Horizontal"
-                  Margin="0,0,0,8" >
-        <TextBlock Text="{Binding Id}"
-                   FontSize="{console:PlatformEx 12,Console=1}"
-                   Foreground="{DynamicResource TextSecondaryBrush}"
-                   TextTrimming="CharacterEllipsis"/>
-        <TextBlock Text=" v" FontSize="{console:PlatformEx 12,Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
-        <TextBlock Text="{Binding Version}"
-                   FontSize="{console:PlatformEx 12,Console=1}"
-                   Foreground="{DynamicResource TextSecondaryBrush}"
-                   FontWeight="Bold"/>
-      </StackPanel>
-
-      <!-- Description -->
-      <TextBlock Grid.Row="2"
-                 Text="{Binding Description}"
-                 FontSize="{console:PlatformEx 13,Console=1}"
-                 TextWrapping="Wrap"
-                 TextTrimming="WordEllipsis"
-                 Foreground="{DynamicResource TextSecondaryBrush}"
-                 MaxLines="3" />
-
-
-      <!-- Install Button -->
-      <Button Grid.Row="4"
-              Content="{Binding InstallButtonText}"
-              Command="{Binding InstallCommand}"
-              IsEnabled="{Binding !IsInstalling}"
-              Background="{DynamicResource AccentBrush}"
-              Foreground="{DynamicResource OnAccentForegroundBrush}"
-              FontWeight="Bold"
-              Padding="0,8"
-              HorizontalAlignment="Stretch"
-              HorizontalContentAlignment="Center"/>
-    </Grid>
-  </Border>
-</UserControl>
+          <StackPanel Orientation="Horizontal">            <TextBlock Text="{Binding DownloadsString}"                       FontSize="{console:OnPlatform '11',Console='1'}"                       Foreground="{DynamicResource TextSecondaryBrush}"/>            <TextBlock Text=" downloads" FontSize="{console:OnPlatform '11',Console='1'}" Foreground="{DynamicResource TextSecondaryBrush}"/>          </StackPanel>        </StackPanel>      </Grid>      <!-- Package ID and Version -->      <StackPanel Grid.Row="1"                  Orientation="Horizontal"                  Margin="0,0,0,8" >        <TextBlock Text="{Binding Id}"                   FontSize="{console:OnPlatform '12',Console=1}"                   Foreground="{DynamicResource TextSecondaryBrush}"                   TextTrimming="CharacterEllipsis"/>        <TextBlock Text=" v" FontSize="{console:OnPlatform '12',Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>        <TextBlock Text="{Binding Version}"                   FontSize="{console:OnPlatform '12',Console=1}"                   Foreground="{DynamicResource TextSecondaryBrush}"                   FontWeight="Bold"/>      </StackPanel>      <!-- Description -->      <TextBlock Grid.Row="2"                 Text="{Binding Description}"                 FontSize="{console:OnPlatform '13',Console='1'}"                 TextWrapping="Wrap"                 TextTrimming="WordEllipsis"                 Foreground="{DynamicResource TextSecondaryBrush}"                 MaxLines="3" />      <!-- Install Button -->      <Button Grid.Row="4"              Content="{Binding InstallButtonText}"              Command="{Binding InstallCommand}"              IsEnabled="{Binding !IsInstalling}"              Background="{DynamicResource AccentBrush}"              Foreground="{DynamicResource OnAccentForegroundBrush}"              FontWeight="Bold"              Padding="0,8"              HorizontalAlignment="Stretch"              HorizontalContentAlignment="Center"/>    </Grid>  </Border></UserControl>

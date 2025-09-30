@@ -1,8 +1,8 @@
 <UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:console="https://github.com/jinek/consolonia"
         xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
         xmlns:views="clr-namespace:ToolGet.Core.Views"
-        xmlns:console="clr-namespace:Consolonia.Markup;assembly=Consolonia"
         x:Class="ToolGet.Core.Views.Search"
         x:DataType="vm:SearchViewModel">
 
@@ -17,8 +17,8 @@
         <!-- Search Header -->
         <Border Grid.Row="0" Background="{DynamicResource PrimaryBrush}" Padding="20">
             <StackPanel>
-                <TextBlock Text="ToolGet" FontSize="{console:PlatformEx 24,Console=1}" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                <TextBlock Text="Search and install NuGet packages" FontSize="{console:PlatformEx 14,Console=1}" Foreground="White" HorizontalAlignment="Center" Opacity="0.8"/>
+                <TextBlock Text="ToolGet" FontSize="{console:OnPlatform '24',Console='1'}" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Search and install NuGet packages" FontSize="{console:OnPlatform '14',Console='1'}" Foreground="White" HorizontalAlignment="Center" Opacity="0.8"/>
             </StackPanel>
         </Border>
 
@@ -34,7 +34,7 @@
                 <TextBox Grid.Column="0" 
                          Text="{Binding SearchQuery}"
                          Watermark="Enter package name or keywords..."
-                         FontSize="{console:PlatformEx 16,Console=1}"
+                         FontSize="{console:OnPlatform '16',Console='1'}"
                          Padding="12"
                          Margin="0,0,10,0"/>
 
@@ -62,7 +62,7 @@
             <StackPanel>
                 <!-- Status Message -->
                 <TextBlock Text="{Binding StatusMessage}"
-                           FontSize="{console:PlatformEx 14,Console=1}"
+                           FontSize="{console:OnPlatform '14',Console='1'}"
                            Margin="0,0,0,20"
                            HorizontalAlignment="Center"
                            IsVisible="{Binding !IsSearching}"/>
@@ -72,8 +72,8 @@
                            HorizontalAlignment="Center"
                            IsVisible="{Binding IsSearching}"
                            Margin="0,0,0,20">
-                    <TextBlock Text="🔄" FontSize="{console:PlatformEx 16,Console=1}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Searching packages..." FontSize="{console:PlatformEx 14,Console=1}"/>
+                    <TextBlock Text="🔄" FontSize="{console:OnPlatform 16,Console=1}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Searching packages..." FontSize="{console:OnPlatform '14',Console='1'}"/>
                 </StackPanel>
 
                 <!-- Package Results -->
@@ -95,7 +95,7 @@
         <!-- Status Bar -->
         <Border Grid.Row="3" Background="#EEEEEE" Padding="10" BorderBrush="#CCCCCC" BorderThickness="0,1,0,0">
             <TextBlock Text="{Binding SearchResults.Count, StringFormat='Packages: {0}'}" 
-                       FontSize="{console:PlatformEx 12,Console=1}" 
+                       FontSize="{console:OnPlatform '12',Console=1}" 
                        Foreground="#666666"/>
         </Border>
     </Grid>
