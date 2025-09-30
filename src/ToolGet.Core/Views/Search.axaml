@@ -33,15 +33,26 @@
                Watermark="Enter package name or keywords..."
                FontSize="{console:OnPlatform 16,Console=1}"
                Padding="{console:OnPlatform 12, Console=0}"
-               Margin="{console:OnPlatform '0,0,10,0', Console='0'}"/>
-      
+               Margin="{console:OnPlatform '0,0,10,0', Console='0 0 1 0'}"
+               KeyDown="SearchBox_KeyDown"/>
+
       <Button Grid.Column="1"
-              Content="Search"
+              Content="_Search"
               Command="{Binding SearchCommand}"
               IsEnabled="{Binding !IsSearching}"
               Background="{DynamicResource AccentBrush}"
               Foreground="White"
               FontWeight="Bold"
+              Margin="{console:OnPlatform Default='8 0 8 0', Console='0 0 1 0'}"
+              Padding="{console:OnPlatform Default='20,12', Console='1 0 1 0'}"/>
+      
+      <Button Grid.Column="2"
+              Content="E_xit"
+              Command="{Binding ExitCommand}"
+              Background="{DynamicResource AccentBrush}"
+              Foreground="White"
+              FontWeight="Bold"
+              Margin="{console:OnPlatform Default='8 0 8 0', Console='0 0 1 0'}"
               Padding="{console:OnPlatform Default='20,12', Console='1 0 1 0'}"/>
     </Grid>
 
@@ -53,6 +64,7 @@
 
         <StackPanel Orientation="Horizontal"
                    HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
                    IsVisible="{Binding IsSearching}"
                    Margin="{console:OnPlatform Default='0,0,0,20', Console='0'}">
 

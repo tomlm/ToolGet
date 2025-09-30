@@ -5,6 +5,8 @@ using ToolGet.Core.Models;
 using ToolGet.Core.Services;
 using CShellNet;
 using static CShellNet.Globals;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace ToolGet.Core.ViewModels;
 
@@ -29,6 +31,13 @@ public partial class SearchViewModel : ObservableObject
     public SearchViewModel(INuGetService nugetService)
     {
         _nugetService = nugetService;
+    }
+
+    [RelayCommand]
+    private async Task ExitAsync()
+    {
+        var lifetime= Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        lifetime.Shutdown();
     }
 
     [RelayCommand]
