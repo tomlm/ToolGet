@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolGet.Core", "src\ToolGet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolGet.Desktop", "src\ToolGet.Desktop\ToolGet.Desktop.csproj", "{620497F9-7CA9-4110-9C88-7A9104346701}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolGet.Console", "src\ToolGet.Console\ToolGet.Console.csproj", "{0814F5CF-1438-4BF7-B149-14F3A1AB1884}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolGet", "src\ToolGet\ToolGet.csproj", "{0814F5CF-1438-4BF7-B149-14F3A1AB1884}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
