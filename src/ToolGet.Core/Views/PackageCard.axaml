@@ -20,9 +20,9 @@
     <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
 
       <!-- Package Title and Icon -->
-      <Grid Grid.Row="0" 
-            Margin="{console:OnPlatform Default='0,0,0,8',Console='0,0,0,1'}" 
-            ColumnDefinitions="Auto * Auto" 
+      <Grid Grid.Row="0"
+            Margin="{console:OnPlatform Default='0,0,0,8',Console='0,0,0,1'}"
+            ColumnDefinitions="Auto * Auto"
             RowDefinitions="Auto Auto" >
 
         <!-- Icon bound to IconUrl -->
@@ -94,47 +94,45 @@
                  MaxLines="3" />
 
 
-      <!-- Install Button -->
-      <Button Grid.Row="4"
-              Content="Install"
-              Command="{Binding InstallCommand}"
-              IsEnabled="{Binding !IsInstalling}"
-              IsVisible="{Binding !IsInstalled}"
-              Background="{DynamicResource AccentBrush}"
-              Foreground="{DynamicResource OnAccentForegroundBrush}"
-              FontWeight="Bold"
-              Padding="{console:OnPlatform Default='0,8', Console='0,1'}"
-              HorizontalAlignment="Stretch"
-              HorizontalContentAlignment="Center"/>
+      <!-- Installing -->
+      <local:AnimatedTextBlock Grid.Row="4"
+                               IsVisible="{Binding IsInstalling}"
+                               IsAnimating="{Binding IsInstalling}"
+                               AnimationType="Wave"
+                               FontSize="{console:OnPlatform Default='14', Console='1'}"
+                               Foreground="{DynamicResource AccentBrush}"
+                               HorizontalAlignment="Center" />
 
-      <Button Grid.Row="4"
-              IsVisible="{Binding IsInstalling}"
-              IsEnabled="false"
-              Background="{DynamicResource AccentBrush}"
-              Foreground="{DynamicResource OnAccentForegroundBrush}"
-              Padding="{console:OnPlatform Default='0,8', Console='0,1'}"
-              HorizontalAlignment="Stretch"
-              HorizontalContentAlignment="Center">
-          <local:AnimatedTextBlock
-              IsVisible="{Binding IsInstalling}"
-              IsAnimating="{Binding IsInstalling}"
-              AnimationType="Wave"
-              FontSize="{console:OnPlatform Default='14', Console='1'}" 
-              Foreground="{DynamicResource OnAccentForegroundBrush}" />
-      </Button>
-      <!-- UnInstall Button -->
-      <Button Grid.Row="4"
-              Content="Uninstall"
-              Command="{Binding UnInstallCommand}"
-              IsEnabled="{Binding !IsInstalling}"
-              IsVisible="{Binding IsInstalled}"
-              Background="{DynamicResource AccentBrush}"
-              Foreground="{DynamicResource OnAccentForegroundBrush}"
-              FontWeight="Bold"
-              Padding="{console:OnPlatform Default='0,8', Console='0,1'}"
-              HorizontalAlignment="Stretch"
-              HorizontalContentAlignment="Center"/>
+      <!--buttons -->
+      <Panel Grid.Row="4" IsVisible="{Binding !IsInstalling}">
+        <Grid IsVisible="{Binding !IsInstalled}">
+          <Button Grid.ColumnSpan="3"
+                  Content="Install"
+                  Command="{Binding InstallCommand}"
+                  Background="{DynamicResource AccentBrush}"
+                  Foreground="{DynamicResource OnAccentForegroundBrush}"
+                  FontWeight="Bold">
+          </Button>
+        </Grid>
 
+        <Grid IsVisible="{Binding IsInstalled}"
+              ColumnDefinitions="{console:OnPlatform Default='* 10 *', Console='* 1 *'}">
+          <!-- Update Button -->
+          <Button Grid.Column="0"
+                  Content="Update"
+                  Command="{Binding UpdateCommand}"
+                  Background="{DynamicResource AccentBrush}"
+                  Foreground="{DynamicResource OnAccentForegroundBrush}"
+                  FontWeight="Bold"/>
+          <!-- Uninstall Button -->
+          <Button Grid.Column="2"
+                  Content="Uninstall"
+                  Command="{Binding UnInstallCommand}"
+                  Background="{DynamicResource AccentBrush}"
+                  Foreground="{DynamicResource OnAccentForegroundBrush}"
+                  FontWeight="Bold"/>
+        </Grid>
+      </Panel>
     </Grid>
   </Border>
 </UserControl>

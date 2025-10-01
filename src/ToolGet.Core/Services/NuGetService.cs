@@ -11,6 +11,12 @@ public interface INuGetService
     Task<NuGetSearchResponse> SearchPackagesAsync(string query, int skip = 0, int take = 20);
     Task<bool> InstallPackageAsync(string packageId, string version);
     Task<bool> UnInstallPackageAsync(string packageId, string version);
+
+    // Returns metadata for a single package id (or null if not found)
+    Task<NuGetPackage?> GetPackageMetadataAsync(string packageId);
+
+    // Update a globally installed dotnet tool (returns true on success)
+    Task<bool> UpdatePackageAsync(string packageId, string version);
 }
 
 public class NuGetService : INuGetService
@@ -49,6 +55,37 @@ public class NuGetService : INuGetService
         }
     }
 
+    public async Task<NuGetPackage?> GetPackageMetadataAsync(string packageId)
+    {
+        if (string.IsNullOrWhiteSpace(packageId))
+            return null;
+
+        try
+        {
+            // Use the same search endpoint but restrict query to the exact package id.
+            // Request a single result (take=1) and include prerelease so tools with prerelease versions can be found.
+            var searchUrl = $"https://azuresearch-usnc.nuget.org/query?q=packageid:{Uri.EscapeDataString(packageId)}&packageType=DotnetTool&prerelease=true&take=1";
+
+            var response = await _httpClient.GetAsync(searchUrl);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var searchResponse = JsonSerializer.Deserialize<NuGetSearchResponse>(content, _jsonOptions);
+
+            if (searchResponse?.Data != null && searchResponse.Data.Length > 0)
+            {
+                return NuGetPackage.FromPackageData(searchResponse.Data[0]);
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error fetching package metadata for '{packageId}': {ex.Message}");
+            return null;
+        }
+    }
+
     public async Task<bool> InstallPackageAsync(string packageId, string version)
     {
         try
@@ -59,6 +96,22 @@ public class NuGetService : INuGetService
         catch (Exception ex)
         {
             Debug.WriteLine($"Error installing package: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdatePackageAsync(string packageId, string version)
+    {
+        try
+        {
+            // Use dotnet tool update -g <packageId> [--version <version>]
+            var cmd = "dotnet tool update -g " + packageId + (string.IsNullOrEmpty(version) ? "" : " --version " + version);
+            var result = await Cmd(cmd).Execute();
+            return result.ExitCode == 0;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error updating package '{packageId}': {ex.Message}");
             return false;
         }
     }

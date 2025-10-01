@@ -36,8 +36,32 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task ExitAsync()
     {
-        var lifetime= Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        var lifetime = Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
         lifetime.Shutdown();
+    }
+
+    [RelayCommand]
+    private async Task InstalledAsync()
+    {
+        SearchResults.Clear();
+
+        var installedTools = await GetTools();
+        if (installedTools.Count > 0)
+        {
+            foreach (var tool in installedTools)
+            {
+                var package = await _nugetService.GetPackageMetadataAsync(tool);
+                if (package != null)
+                {
+                    var viewModel = new PackageCardViewModel(package, _nugetService, true);
+                    SearchResults.Add(viewModel);
+                }
+            }
+            StatusMessage = $"Found {SearchResults.Count} installed tools";
+        }
+        else
+            StatusMessage = "No installed tools found";
+
     }
 
     [RelayCommand]

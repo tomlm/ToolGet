@@ -86,6 +86,25 @@ public partial class PackageCardViewModel : ObservableObject
         }
     }
 
+
+    [RelayCommand]
+    private async Task UpdateAsync()
+    {
+        if (IsInstalling) return;
+
+        IsInstalling = true;
+
+        try
+        {
+            await _nugetService.UpdatePackageAsync(Id, Version);
+        }
+        finally
+        {
+            IsInstalling = false;
+        }
+    }
+
+
     [RelayCommand]
     private async Task UnInstallAsync()
     {

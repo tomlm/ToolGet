@@ -26,8 +26,8 @@
 
     <!-- Search Controls -->
     <Grid Grid.Row="1"
-          ColumnDefinitions="* Auto Auto"
-          RowDefinitions="Auto">
+           ColumnDefinitions="* Auto Auto Auto"
+           RowDefinitions="Auto">
       <TextBox Grid.Column="0"
                Text="{Binding SearchQuery}"
                Watermark="Enter package name or keywords..."
@@ -45,8 +45,18 @@
               FontWeight="Bold"
               Margin="{console:OnPlatform Default='8 0 8 0', Console='0 0 1 0'}"
               Padding="{console:OnPlatform Default='20,12', Console='1 0 1 0'}"/>
-      
+
       <Button Grid.Column="2"
+              Content="_Installed"
+              Command="{Binding InstalledCommand}"
+              IsEnabled="{Binding !IsSearching}"
+              Background="{DynamicResource AccentBrush}"
+              Foreground="White"
+              FontWeight="Bold"
+              Margin="{console:OnPlatform Default='8 0 8 0', Console='0 0 1 0'}"
+              Padding="{console:OnPlatform Default='20,12', Console='1 0 1 0'}"/>
+
+      <Button Grid.Column="3"
               Content="E_xit"
               Command="{Binding ExitCommand}"
               Background="{DynamicResource AccentBrush}"
@@ -68,13 +78,13 @@
                    IsVisible="{Binding IsSearching}"
                    Margin="{console:OnPlatform Default='0,0,0,20', Console='0'}">
 
+          <TextBlock Text="Searching " FontSize="{console:OnPlatform Default=14,Console=1}"/>
           <local:AnimatedTextBlock
              IsAnimating="{Binding IsSearching}"
              AnimationType="Wave"
              VerticalAlignment="Center"
              Margin="0 0 1 0"
              FontSize="{console:OnPlatform 16, Console=1}" />
-          <TextBlock Text="Searching packages..." FontSize="{console:OnPlatform Default=14,Console=1}"/>
 
         </StackPanel>
 
@@ -108,6 +118,7 @@
       <TextBlock Grid.Column="1"
                  Text="{Binding SearchResults.Count, StringFormat='Packages: {0}'}"
                  FontSize="{console:OnPlatform Default='12',Console=1}"
+                 Padding="{console:OnPlatform Default='8,0,8,0', Console='0,0,1,0'}"
                  Foreground="#666666"/>
 
     </Grid>
