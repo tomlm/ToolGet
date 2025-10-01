@@ -48,7 +48,7 @@
 
       <Button Grid.Column="2"
               Content="_Installed"
-              Command="{Binding InstalledCommand}"
+              Command="{Binding ShowInstalledCommand}"
               IsEnabled="{Binding !IsSearching}"
               Background="{DynamicResource AccentBrush}"
               Foreground="White"

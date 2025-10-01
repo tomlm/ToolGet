@@ -41,19 +41,19 @@ public partial class SearchViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task InstalledAsync()
+    private async Task ShowInstalledAsync()
     {
         SearchResults.Clear();
 
-        var installedTools = await GetTools();
+        var installedTools = await GetInstalledTools();
         if (installedTools.Count > 0)
         {
-            foreach (var tool in installedTools)
+            foreach (var installedTool in installedTools)
             {
-                var package = await _nugetService.GetPackageMetadataAsync(tool);
+                var package = await _nugetService.GetPackageMetadataAsync(installedTool.Id);
                 if (package != null)
                 {
-                    var viewModel = new PackageCardViewModel(package, _nugetService, true);
+                    var viewModel = new PackageCardViewModel(package, _nugetService, installedTool);
                     SearchResults.Add(viewModel);
                 }
             }
@@ -70,7 +70,7 @@ public partial class SearchViewModel : ObservableObject
         if (IsSearching || string.IsNullOrWhiteSpace(SearchQuery))
             return;
 
-        var installedTools = await GetTools();
+        var installedTools = await GetInstalledTools();
 
         IsSearching = true;
         StatusMessage = "Searching packages...";
@@ -86,7 +86,7 @@ public partial class SearchViewModel : ObservableObject
                 foreach (var packageData in response.Data)
                 {
                     var package = NuGetPackage.FromPackageData(packageData);
-                    var viewModel = new PackageCardViewModel(package, _nugetService, installedTools.Contains(package.Id, StringComparer.OrdinalIgnoreCase));
+                    var viewModel = new PackageCardViewModel(package, _nugetService, installedTools.FirstOrDefault(tool => String.Compare(tool.Id, package.Id, true) == 0));
                     SearchResults.Add(viewModel);
                 }
                 StatusMessage = $"Found {response.TotalHits} packages (showing {response.Data.Length})";
@@ -116,27 +116,37 @@ public partial class SearchViewModel : ObservableObject
         StatusMessage = "Enter a search term and click Search to find NuGet packages";
     }
 
-    private async Task<List<string>> GetTools()
+    private async Task<List<InstalledTool>> GetInstalledTools()
     {
         try
         {
             Echo = false;
             var result = await Cmd("dotnet tool list -g").AsString();
-            var tools = new List<string>();
+            var tools = new List<InstalledTool>();
             var lines = result.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var line in lines.Skip(2)) // Skip header lines
             {
                 var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length > 0)
                 {
-                    tools.Add(parts[0]); // Tool id is the first part
+                    tools.Add(new InstalledTool
+                    {
+                        Id = parts[0],
+                        Version = parts.Length > 1 ? parts[1] : throw new ArgumentNullException("Missing version")
+                    });
                 }
             }
             return tools;
         }
         catch
         {
-            return new List<string>();
+            return new List<InstalledTool>();
         }
     }
+}
+
+public class InstalledTool
+{
+    public string Id { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
 }

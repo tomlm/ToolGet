@@ -47,9 +47,15 @@ public partial class PackageCardViewModel : ObservableObject
     private string _installButtonText = "Install";
 
     [ObservableProperty]
+    private string? _installedVersion;
+    
+    [ObservableProperty]
     private bool _isInstalled;
 
-    public PackageCardViewModel(NuGetPackage package, INuGetService nugetService, bool isInstalled)
+    [ObservableProperty]
+    private bool _isUpdateAvailable;
+
+    public PackageCardViewModel(NuGetPackage package, INuGetService nugetService, InstalledTool installedTool)
     {
         _nugetService = nugetService;
         Id = package.Id;
@@ -62,7 +68,9 @@ public partial class PackageCardViewModel : ObservableObject
         IconUrl = package.IconUrl;
         Tags = package.Tags;
         IsPrerelease = package.IsPrerelease;
-        IsInstalled = isInstalled;
+        IsInstalled = installedTool != null;
+        InstalledVersion = installedTool?.Version!;
+        IsUpdateAvailable = IsInstalled && InstalledVersion != Version;
     }
 
     [RelayCommand]
@@ -77,7 +85,9 @@ public partial class PackageCardViewModel : ObservableObject
             var success = await _nugetService.InstallPackageAsync(Id, Version);
             if (success)
             {
+                InstalledVersion = Version;
                 IsInstalled = true;
+                IsUpdateAvailable = false;
             }
         }
         finally
@@ -96,7 +106,13 @@ public partial class PackageCardViewModel : ObservableObject
 
         try
         {
-            await _nugetService.UpdatePackageAsync(Id, Version);
+            var success = await _nugetService.UpdatePackageAsync(Id, Version);
+            if (success)
+            {
+                InstalledVersion = Version;
+                IsInstalled = true;
+                IsUpdateAvailable = false;
+            }
         }
         finally
         {
@@ -117,8 +133,10 @@ public partial class PackageCardViewModel : ObservableObject
             var success = await _nugetService.UnInstallPackageAsync(Id, Version);
             if (success)
             {
+                InstalledVersion = null;
                 IsInstalled = false;
-            }   
+                IsUpdateAvailable = false;
+            }
         }
         finally
         {

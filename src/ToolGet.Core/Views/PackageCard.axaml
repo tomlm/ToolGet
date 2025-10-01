@@ -17,7 +17,7 @@
           Padding="{console:OnPlatform Default='16', Console='0'}">
 
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
+    <Grid RowDefinitions="Auto,*,Auto">
 
       <!-- Package Title and Icon -->
       <Grid Grid.Row="0"
@@ -44,7 +44,7 @@
 
         <Border Background="{DynamicResource PreReleaseBadgeBackgroundBrush}"
                 Grid.Column="2"
-                Padding="{console:OnPlatform Default='4,2', Console='1,1'}"
+                Padding="{console:OnPlatform Default='4,2', Console='0'}"
                 CornerRadius="{console:OnPlatform Default='3', Console='0'}"
                 Margin="{console:OnPlatform Default='8,0,0,0', Console='1,0,0,0'}"
                 IsVisible="{Binding IsPrerelease}">
@@ -65,27 +65,33 @@
                        Foreground="{DynamicResource TextSecondaryBrush}"/>
             <TextBlock Text=" downloads" FontSize="{console:OnPlatform '11',Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
           </StackPanel>
+          <!-- Package Version -->
+          <StackPanel Orientation="Horizontal"
+                      Margin="{console:OnPlatform Default='0,0,0,8', Console='0'}" >
+            <TextBlock Text="v" FontSize="{console:OnPlatform 12,Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
+            <TextBlock Text="{Binding Version}"
+                       FontSize="{console:OnPlatform 12,Console=1}"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
+                       FontWeight="Bold"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" IsVisible="{Binding IsUpdateAvailable}">
+            <TextBlock Text="v" FontSize="{console:OnPlatform 12,Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
+            <TextBlock Text="{Binding InstalledVersion}"
+                       FontSize="{console:OnPlatform 12,Console=1}"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
+                       FontWeight="Bold"/>
+            <TextBlock Text=" installed"
+                       FontSize="{console:OnPlatform 12,Console=1}"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
+                       TextTrimming="CharacterEllipsis"/>
+          </StackPanel>
         </StackPanel>
 
       </Grid>
 
-      <!-- Package ID and Version -->
-      <StackPanel Grid.Row="1"
-                  Orientation="Horizontal"
-                  Margin="{console:OnPlatform Default='0,0,0,8', Console='0,0,0,1'}" >
-        <TextBlock Text="{Binding Id}"
-                   FontSize="{console:OnPlatform 12,Console=1}"
-                   Foreground="{DynamicResource TextSecondaryBrush}"
-                   TextTrimming="CharacterEllipsis"/>
-        <TextBlock Text=" v" FontSize="{console:OnPlatform 12,Console=1}" Foreground="{DynamicResource TextSecondaryBrush}"/>
-        <TextBlock Text="{Binding Version}"
-                   FontSize="{console:OnPlatform 12,Console=1}"
-                   Foreground="{DynamicResource TextSecondaryBrush}"
-                   FontWeight="Bold"/>
-      </StackPanel>
 
       <!-- Description -->
-      <TextBlock Grid.Row="2"
+      <TextBlock Grid.Row="1"
                  Text="{Binding Description}"
                  FontSize="{console:OnPlatform 13,Console=1}"
                  TextWrapping="Wrap"
@@ -95,7 +101,7 @@
 
 
       <!-- Installing -->
-      <local:AnimatedTextBlock Grid.Row="4"
+      <local:AnimatedTextBlock Grid.Row="2"
                                IsVisible="{Binding IsInstalling}"
                                IsAnimating="{Binding IsInstalling}"
                                AnimationType="Wave"
@@ -104,9 +110,11 @@
                                HorizontalAlignment="Center" />
 
       <!--buttons -->
-      <Panel Grid.Row="4" IsVisible="{Binding !IsInstalling}">
-        <Grid IsVisible="{Binding !IsInstalled}">
-          <Button Grid.ColumnSpan="3"
+      <Panel Grid.Row="2" IsVisible="{Binding !IsInstalling}">
+        <Grid IsVisible="{Binding !IsInstalled}"               
+              ColumnDefinitions="* *">
+          <!-- Install Button -->
+          <Button Grid.Column="1"
                   Content="Install"
                   Command="{Binding InstallCommand}"
                   Background="{DynamicResource AccentBrush}"
@@ -116,16 +124,18 @@
         </Grid>
 
         <Grid IsVisible="{Binding IsInstalled}"
-              ColumnDefinitions="{console:OnPlatform Default='* 10 *', Console='* 1 *'}">
+              ColumnDefinitions="* *">
           <!-- Update Button -->
           <Button Grid.Column="0"
                   Content="Update"
+                  IsVisible="{Binding IsUpdateAvailable}"
                   Command="{Binding UpdateCommand}"
                   Background="{DynamicResource AccentBrush}"
                   Foreground="{DynamicResource OnAccentForegroundBrush}"
+                  Margin="0,0,1,0"
                   FontWeight="Bold"/>
           <!-- Uninstall Button -->
-          <Button Grid.Column="2"
+          <Button Grid.Column="1"
                   Content="Uninstall"
                   Command="{Binding UnInstallCommand}"
                   Background="{DynamicResource AccentBrush}"
