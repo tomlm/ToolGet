@@ -3,6 +3,7 @@
              xmlns:console="https://github.com/jinek/consolonia"
              xmlns:vm="clr-namespace:ToolGet.Core.ViewModels;assembly=ToolGet.Core"
              xmlns:views="clr-namespace:ToolGet.Core.Views"
+             xmlns:ice="clr-namespace:Iciclecreek.Avalonia.Controls;assembly=Iciclecreek.Avalonia.Controls"
              xmlns:local="using:ToolGet.Core"
              x:Class="ToolGet.Core.Views.Search"
              x:DataType="vm:SearchViewModel">
@@ -78,14 +79,16 @@
                    IsVisible="{Binding IsSearching}"
                    Margin="{console:OnPlatform Default='0,0,0,20', Console='0'}">
 
-          <TextBlock Text="Searching " FontSize="{console:OnPlatform Default=14,Console=1}"/>
-          <local:AnimatedTextBlock
-             IsAnimating="{Binding IsSearching}"
+          <TextBlock Text="Searching " 
+                     Foreground="Black"
+                     FontSize="{console:OnPlatform Default=14,Console=1}"/>
+          <ice:TextBlockSpinner
+             IsActive="{Binding IsSearching}"
+             Foreground="Black"
              AnimationType="Wave"
              VerticalAlignment="Center"
              Margin="0 0 1 0"
              FontSize="{console:OnPlatform 16, Console=1}" />
-
         </StackPanel>
 
 

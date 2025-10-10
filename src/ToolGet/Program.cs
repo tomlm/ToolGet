@@ -31,7 +31,7 @@ internal class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
-                services.AddHttpClient<INuGetService, NuGetService>();
+                services.AddSingleton<INuGetService, NuGetService>();
                 services.AddTransient<SearchViewModel>();
             });
 }

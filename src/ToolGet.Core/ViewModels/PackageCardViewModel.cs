@@ -1,7 +1,8 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ToolGet.Core.Models;
+using NuGet.Protocol.Core.Types;
+using NuGet.Versioning;
 using ToolGet.Core.Services;
 
 namespace ToolGet.Core.ViewModels;
@@ -35,7 +36,7 @@ public partial class PackageCardViewModel : ObservableObject
     private string _iconUrl = string.Empty;
 
     [ObservableProperty]
-    private string[] _tags = Array.Empty<string>();
+    private string _tags = String.Empty;
 
     [ObservableProperty]
     private bool _isPrerelease;
@@ -55,22 +56,23 @@ public partial class PackageCardViewModel : ObservableObject
     [ObservableProperty]
     private bool _isUpdateAvailable;
 
-    public PackageCardViewModel(NuGetPackage package, INuGetService nugetService, InstalledTool installedTool)
+    public PackageCardViewModel(IPackageSearchMetadata package, INuGetService nugetService, PackageReference installedTool)
     {
         _nugetService = nugetService;
-        Id = package.Id;
-        Version = package.Version;
+        Id = package.Identity.Id;
+        Version = package.Identity.Version.ToString();
         Title = package.Title;
         Description = package.Description;
         Authors = package.Authors;
-        TotalDownloads = package.TotalDownloads;
-        ProjectUrl = package.ProjectUrl;
-        IconUrl = package.IconUrl;
+        TotalDownloads = package.DownloadCount ?? 0;
+        ProjectUrl = package.ProjectUrl?.ToString();
+        IconUrl = package.IconUrl?.ToString();
         Tags = package.Tags;
-        IsPrerelease = package.IsPrerelease;
+        IsPrerelease = package.Identity.Version.IsPrerelease;
         IsInstalled = installedTool != null;
         InstalledVersion = installedTool?.Version!;
-        IsUpdateAvailable = IsInstalled && InstalledVersion != Version;
+        IsUpdateAvailable = IsInstalled && 
+            (NuGetVersion.Parse(InstalledVersion) < package.Identity.Version);
     }
 
     [RelayCommand]

@@ -43,7 +43,7 @@ public partial class App : Application
     private static IServiceProvider CreateEmptyServiceProvider()
     {
         var services = new ServiceCollection();
-        services.AddHttpClient<INuGetService, NuGetService>();
+        services.AddSingleton<INuGetService, NuGetService>();
         services.AddTransient<SearchViewModel>();
         return services.BuildServiceProvider();
     }

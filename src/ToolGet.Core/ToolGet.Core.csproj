@@ -15,6 +15,9 @@
     <PackageReference Include="Consolonia" Version="11.3.4-beta.1604" />
     <PackageReference Include="Consolonia.Controls" Version="11.3.4-beta.1604" />
     <PackageReference Include="CShell" Version="2.0.0" />
+    <PackageReference Include="Iciclecreek.Avalonia.Controls" Version="2.1.1" />
+    <PackageReference Include="NuGet.Protocol" Version="6.14.0" />
+    <PackageReference Include="NuGet.Versioning" Version="6.14.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
   </ItemGroup>

@@ -1,19 +1,21 @@
-using System.Diagnostics;
-using System.Text.Json;
-using ToolGet.Core.Models;
 using CShellNet;
+using NuGet.Common;
+using NuGet.Configuration;
+using NuGet.Protocol.Core.Types;
+using System.Diagnostics;
+using ToolGet.Core.ViewModels;
 using static CShellNet.Globals;
 
 namespace ToolGet.Core.Services;
 
 public interface INuGetService
 {
-    Task<NuGetSearchResponse> SearchPackagesAsync(string query, int skip = 0, int take = 20);
+    Task<IEnumerable<IPackageSearchMetadata>> SearchPackagesAsync(string query, int skip = 0, int take = 20);
     Task<bool> InstallPackageAsync(string packageId, string version);
     Task<bool> UnInstallPackageAsync(string packageId, string version);
 
     // Returns metadata for a single package id (or null if not found)
-    Task<NuGetPackage?> GetPackageMetadataAsync(string packageId);
+    Task<IPackageSearchMetadata> GetPackageMetadataAsync(string packageId);
 
     // Update a globally installed dotnet tool (returns true on success)
     Task<bool> UpdatePackageAsync(string packageId, string version);
@@ -21,63 +23,60 @@ public interface INuGetService
 
 public class NuGetService : INuGetService
 {
-    private readonly HttpClient _httpClient;
-    private readonly JsonSerializerOptions _jsonOptions;
+    private SourceRepository _repo;
 
-    public NuGetService(HttpClient httpClient)
+    public NuGetService()
     {
-        _httpClient = new HttpClient();
-        _jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
+        var source = new PackageSource("https://api.nuget.org/v3/index.json");
+        var providers = Repository.Provider.GetCoreV3();
+        _repo = new SourceRepository(source, providers);
+
     }
 
-    public async Task<NuGetSearchResponse> SearchPackagesAsync(string query, int skip = 0, int take = 20)
+    public async Task<IEnumerable<IPackageSearchMetadata>> SearchPackagesAsync(string query, int skip = 0, int take = 20)
     {
-        try
-        {
-            var searchUrl = $"https://azuresearch-usnc.nuget.org/query?q={Uri.EscapeDataString(query)}&packageType=DotnetTool&skip={skip}&take={take}&prerelease=true";
-            
-            var response = await _httpClient.GetAsync(searchUrl);
-            response.EnsureSuccessStatusCode();
+        var results = await Cmd($"dotnet tool search \\\"{query}\\\" --prerelease").AsString();
+        var lines = results.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(2).ToList();
+        if (lines.Count == 0)
+            return Enumerable.Empty<IPackageSearchMetadata>();
 
-            var content = await response.Content.ReadAsStringAsync();
-            var searchResponse = JsonSerializer.Deserialize<NuGetSearchResponse>(content, _jsonOptions);
-
-            return searchResponse ?? new NuGetSearchResponse();
-        }
-        catch (Exception ex)
+        var searchResults = new List<IPackageSearchMetadata>();
+        foreach(var line in lines)
         {
-            // In a real app, you would log this error
-            Debug.WriteLine($"Error searching packages: {ex.Message}");
-            return new NuGetSearchResponse();
+            var parts = line.Split(' ');
+            var packageReference = new PackageReference() { Id = parts[0], Version = parts[1] };
+            var packageSearchMetadata = await GetPackageMetadataAsync(packageReference.Id);
+            if (packageSearchMetadata != null)
+                searchResults.Add(packageSearchMetadata);
         }
+        return searchResults;
     }
 
-    public async Task<NuGetPackage?> GetPackageMetadataAsync(string packageId)
+    public async Task<IPackageSearchMetadata?> GetPackageMetadataAsync(string packageId)
     {
         if (string.IsNullOrWhiteSpace(packageId))
             return null;
 
         try
         {
-            // Use the same search endpoint but restrict query to the exact package id.
-            // Request a single result (take=1) and include prerelease so tools with prerelease versions can be found.
-            var searchUrl = $"https://azuresearch-usnc.nuget.org/query?q=packageid:{Uri.EscapeDataString(packageId)}&packageType=DotnetTool&prerelease=true&take=1";
+            var metadataResource = await _repo.GetResourceAsync<PackageMetadataResource>();
 
-            var response = await _httpClient.GetAsync(searchUrl);
-            response.EnsureSuccessStatusCode();
+            var metadataList = await metadataResource.GetMetadataAsync(
+                packageId,                  // Package ID
+                includePrerelease: true,    // Filter prerelease if needed
+                includeUnlisted: false,      // Only listed packages
+                new SourceCacheContext(),
+                NullLogger.Instance,
+                CancellationToken.None
+            );
 
-            var content = await response.Content.ReadAsStringAsync();
-            var searchResponse = JsonSerializer.Deserialize<NuGetSearchResponse>(content, _jsonOptions);
+            // Get the latest version
+            var latest = metadataList
+                .OrderByDescending(m => m.Identity.Version)
+                .FirstOrDefault();
 
-            if (searchResponse?.Data != null && searchResponse.Data.Length > 0)
-            {
-                return NuGetPackage.FromPackageData(searchResponse.Data[0]);
-            }
 
-            return null;
+            return latest;
         }
         catch (Exception ex)
         {

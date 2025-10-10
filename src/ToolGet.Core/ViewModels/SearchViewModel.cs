@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ToolGet.Core.Models;
 using ToolGet.Core.Services;
 using CShellNet;
 using static CShellNet.Globals;
@@ -79,17 +78,16 @@ public partial class SearchViewModel : ObservableObject
 
         try
         {
-            var response = await _nugetService.SearchPackagesAsync(SearchQuery.Trim(), 0, 50);
+            var packages = await _nugetService.SearchPackagesAsync(SearchQuery.Trim(), 0, 50);
 
-            if (response.Data.Length > 0)
+            if (packages != null)
             {
-                foreach (var packageData in response.Data)
+                foreach (var package in packages)
                 {
-                    var package = NuGetPackage.FromPackageData(packageData);
-                    var viewModel = new PackageCardViewModel(package, _nugetService, installedTools.FirstOrDefault(tool => String.Compare(tool.Id, package.Id, true) == 0));
+                    var viewModel = new PackageCardViewModel(package, _nugetService, installedTools.FirstOrDefault(tool => String.Compare(tool.Id, package.Identity.Id, true) == 0));
                     SearchResults.Add(viewModel);
                 }
-                StatusMessage = $"Found {response.TotalHits} packages (showing {response.Data.Length})";
+                StatusMessage = $"Found {packages.Count()} packages";
             }
             else
             {
@@ -116,20 +114,20 @@ public partial class SearchViewModel : ObservableObject
         StatusMessage = "Enter a search term and click Search to find NuGet packages";
     }
 
-    private async Task<List<InstalledTool>> GetInstalledTools()
+    private async Task<List<PackageReference>> GetInstalledTools()
     {
         try
         {
             Echo = false;
             var result = await Cmd("dotnet tool list -g").AsString();
-            var tools = new List<InstalledTool>();
+            var tools = new List<PackageReference>();
             var lines = result.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var line in lines.Skip(2)) // Skip header lines
             {
                 var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length > 0)
                 {
-                    tools.Add(new InstalledTool
+                    tools.Add(new PackageReference
                     {
                         Id = parts[0],
                         Version = parts.Length > 1 ? parts[1] : throw new ArgumentNullException("Missing version")
@@ -140,12 +138,12 @@ public partial class SearchViewModel : ObservableObject
         }
         catch
         {
-            return new List<InstalledTool>();
+            return new List<PackageReference>();
         }
     }
 }
 
-public class InstalledTool
+public class PackageReference
 {
     public string Id { get; set; } = string.Empty;
     public string Version { get; set; } = string.Empty;
